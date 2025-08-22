@@ -1,0 +1,49 @@
+from typing import List
+
+class SSTF_Scheduling:
+    def __init__(self, requests: List[int], head_start: int):
+        self.requests = requests.copy()
+        self.head_start = head_start
+        self.seek_sequence: List[int] = [head_start]
+        self.total_seek_ops: int = 0
+
+    def run(self) -> None:
+
+        current_head = self.head_start
+        pending = self.requests.copy()
+
+        while pending:
+          closest_request = min (pending, key=lambda x: abs(x - current_head))
+          distance = abs(closest_request - current_head)
+          self.total_seek_ops += distance
+          current_head = closest_request
+          self.seek_sequence.append(closest_request)
+          pending.remove(closest_request)
+
+
+
+    def display_result(self) -> None:
+        print(f"Total Seek Operations: {self.total_seek_ops}")
+        print(f"Seek Sequence: {self.seek_sequence}")
+
+def read_int_list(prompt: str) -> List[int]:
+    raw = input(prompt).strip()
+    if not raw:
+        return []
+    try:
+        return [int(x) for x in raw.split()]
+    except ValueError:
+        raise ValueError("Please enter only integers separated by spaces.")
+
+def read_int(prompt: str) -> int:
+    try:
+        return int(input(prompt).strip())
+    except ValueError:
+        raise ValueError("Please enter a valid integer.")
+
+if __name__ == "__main__":
+    requests = read_int_list("Enter the request sequence separated by spaces: ")
+    head_start = read_int("Enter the initial head position: ")
+    sstf = SSTF_Scheduling(requests, head_start)
+    sstf.run()
+    sstf.display_result()
