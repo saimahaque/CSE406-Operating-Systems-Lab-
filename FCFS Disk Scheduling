@@ -1,0 +1,49 @@
+from typing import List
+
+class FCFS_Scheduling:
+    def __init__(self, requests: List[int], head_start: int):
+        self.requests = requests
+        self.head_start = head_start
+        self.seek_sequence: List[int] = []
+        self.total_seek_ops: int = 0
+
+    def run(self) -> None:
+
+        self.seek_sequence = [self.head_start]
+        visited = {self.head_start}
+        for req in self.requests:
+          if req not in visited:
+            self.seek_sequence.append(req)
+            visited.add(req)
+
+
+        total = 0
+        for i in range(1, len(self.seek_sequence)):
+            total += abs(self.seek_sequence[i] - self.seek_sequence[i - 1])
+        self.total_seek_ops = total
+
+    def display_result(self) -> None:
+        print(f"Total Seek Operations: {self.total_seek_ops}")
+        print(f"Seek Sequence: {self.seek_sequence}")
+
+def read_int_list(prompt: str) -> List[int]:
+    raw = input(prompt).strip()
+    if not raw:
+        return []
+    try:
+        return [int(x) for x in raw.split()]
+    except ValueError:
+        raise ValueError("Please enter only integers separated by spaces.")
+
+def read_int(prompt: str) -> int:
+    try:
+        return int(input(prompt).strip())
+    except ValueError:
+        raise ValueError("Please enter a valid integer.")
+
+if __name__ == "__main__":
+    requests = read_int_list("Enter the request sequence separated by spaces: ")
+    head_start = read_int("Enter the initial head position: ")
+    fcfs = FCFS_Scheduling(requests, head_start)
+    fcfs.run()
+    fcfs.display_result()
