@@ -1,0 +1,57 @@
+def cscan(requests, start_head, direction):
+    head = start_head
+    total_movement = 0
+
+    
+    filtered_requests = sorted([r for r in requests if r != start_head])
+
+    left = [r for r in filtered_requests if r < head]
+    right = [r for r in filtered_requests if r > head]
+
+    seek_sequence = [head]
+
+    if direction.lower() == 'right'
+        for r in right:
+            total_movement += abs(head - r)
+            head = r
+            seek_sequence.append(r)
+
+        # Wrap around to left side
+        if left:
+            total_movement += abs(head - left[0])
+            head = left[0]
+            seek_sequence.append(left[0])
+
+            for r in left[1:]:
+                total_movement += abs(head - r)
+                head = r
+                seek_sequence.append(r)
+
+    elif direction.lower() == 'left':
+        left.sort(reverse=True)
+        right.sort(reverse=True)
+
+      
+        for r in left:
+            total_movement += abs(head - r)
+            head = r
+            seek_sequence.append(r)
+
+        if right:
+            total_movement += abs(head - right[0])
+            head = right[0]
+            seek_sequence.append(right[0])
+
+            for r in right[1:]:
+                total_movement += abs(head - r)
+                head = r
+                seek_sequence.append(r)
+
+    print("Seek sequence:", seek_sequence)
+    print("Total seek operations:", total_movement)
+
+requests = list(map(int, input("Enter disk requests separated by space: ").split()))
+start_head = int(input("Enter initial head position: "))
+direction = input("Enter head movement direction (left/right): ")
+
+cscan(requests, start_head, direction)
