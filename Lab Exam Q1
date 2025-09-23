@@ -1,0 +1,50 @@
+pid = []
+arr_t = []
+bt = []
+
+n = 4
+print("Take input for Process ID, Arrival Time, Burst Time:")
+for i in range(n):
+    print(f"For Process {i+1}:")
+    pid_val = int(input("Process ID: "))
+    arr_val = int(input("Arrival Time: "))
+    bt_val = int(input("Burst Time: "))
+
+    pid.append(pid_val)
+    arr_t.append(arr_val)
+    bt.append(bt_val)
+
+ct = [0] * n
+tat = [0] * n
+wt = [0] * n
+visited = [False] * n
+
+complete = 0
+current_time = 0
+
+while complete < n:
+    idx = -1
+    min_bt = float('inf')
+
+    for i in range(n):
+        if arr_t[i] <= current_time and not visited[i]:
+            if bt[i] < min_bt:
+                min_bt = bt[i]
+                idx = i
+
+    if idx != -1:
+        ct[idx] = current_time + bt[idx]
+        tat[idx] = ct[idx] - arr_t[idx]
+        wt[idx] = tat[idx] - bt[idx]
+        current_time = ct[idx]
+        visited[idx] = True
+        complete += 1
+    else:
+        current_time += 1
+#print table
+print("\nProcess ID| Arrival Time | Burst Time| Completion Time| Turn Around Time | Waiting Time")
+print("_"*75)
+for i in range(n):
+  print(f"{pid[i]:>10}|| {arr_t[i]:>12} | {bt[i]:>10} | {ct[i]:>15} | {tat[i]:>15} | {wt[i]:>12}")
+
+
