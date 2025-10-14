@@ -1,0 +1,48 @@
+def page_replacement(page_ref, frame_size):
+    frames = []
+    recent = []
+    faults = 0
+
+    print(f"Page References: {page_ref}")
+    print(f"Frame Size: {frame_size}")
+    print("\nRef | Frames | Fault/Hit")
+    print("-" * 25)
+
+    for page in page_ref:
+        if page in frames:
+            recent.remove(page)
+            recent.append(page)
+            print(f"{page:3} | {frames} | Hit")
+        else:
+            faults += 1
+            if len(frames) < frame_size:
+                frames.append(page)
+                recent.append(page)
+                print(f"{page:3} | {frames} | Miss")
+            else:
+                n_page = recent.pop(0)
+                n_index = frames.index(n_page)
+                frames[n_index] = page
+                recent.append(page)
+                print(f"{page:3} | {frames} | Miss")
+
+    print("-" * 25)
+    print(f"Total Page Faults: {faults}")
+
+
+# ---------- USER INPUT ----------
+page_input = input("Enter page reference string (comma-separated): ")
+pages = [int(x.strip()) for x in page_input.split(",")]
+size = int(input("Enter frame size: "))
+
+page_replacement(pages, size
+
+
+Enter page reference string (comma-separated): 3,2,0,1,0,5,9,1,2
+Enter frame size: 3
+Page References: [3, 2, 0, 1, 0, 5, 9, 1, 2]
+Frame Size: 3
+
+
+
+
